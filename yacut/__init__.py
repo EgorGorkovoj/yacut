@@ -8,4 +8,4 @@ app.config.from_object(Config)
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
-from . import api_yacut, error_handlers, view
+from . import api_yacut, error_handlers, views

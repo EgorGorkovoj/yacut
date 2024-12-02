@@ -16,11 +16,11 @@
               {{ form.csrf_token }}
               <div>
                 <div>
-                  {{ form.original(class="form-control form-control-lg py-2 mb-3", placeholder=form.original.label.text) }}
-                  {% if form.original.errors %}
+                  {{ form.original_link(class="form-control form-control-lg py-2 mb-3", placeholder=form.original_link.label.text) }}
+                  {% if form.original_link.errors %}
                     <p>
                       <span style="color:red">
-                        {% for error in form.original.errors %}
+                        {% for error in form.original_link.errors %}
                               {{ error }}
                         {% endfor %}  
                       </span>
@@ -28,11 +28,11 @@
                   {% endif %}
                 </div>
                 <div>
-                  {{ form.short(class="form-control form-control-lg py-2 mb-3", placeholder=form.short.label.text) }}
-                  {% if form.short.errors %}
+                  {{ form.custom_id(class="form-control form-control-lg py-2 mb-3", placeholder=form.custom_id.label.text) }}
+                  {% if form.custom_id.errors %}
                     <p>
                       <span style="color:red">
-                        {% for error in form.short.errors %}
+                        {% for error in form.custom_id.errors %}
                               {{ error }}
                         {% endfor %}  
                       </span>

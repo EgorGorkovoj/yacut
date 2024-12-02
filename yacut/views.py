@@ -7,14 +7,15 @@ from . import app, db
 from .models import URLMap
 from .forms import YacutForm
 
+ALL_SYMBOLS = string.ascii_letters + string.digits
+
 
 def get_unique_short_id():
     """
     Функция отвечающая за автоматическое создание
     идентификатора короткой ссылки.
     """
-    all_symbols = string.ascii_uppercase + string.digits
-    random_string = ''.join(random.choice(all_symbols) for _ in range(6))
+    random_string = ''.join(random.choice(ALL_SYMBOLS) for _ in range(6))
     if URLMap.query.filter_by(short=random_string).first() is not None:
         return get_unique_short_id()
     return random_string
@@ -29,13 +30,13 @@ def create_object_in_data_base(form: YacutForm, short_link: str):
     2) short_link - идентификатор короткой ссылки.
     """
     link = URLMap(
-        original=form.original.data,
+        original=form.original_link.data,
         short=short_link
     )
     db.session.add(link)
     db.session.commit()
     flash('Ваша новая ссылка готова:\n')
-    return render_template('add_yacut.html', form=form, link=link), 201
+    return render_template('add_yacut.html', form=form, link=link), 200
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -43,8 +44,8 @@ def get_link():
     """View функция главной страницы сайта."""
     form = YacutForm()
     if form.validate_on_submit():
-        short = form.short.data
-        if short == '':
+        short = form.custom_id.data
+        if short == '' or short is None:
             short_link = get_unique_short_id()
             return create_object_in_data_base(form, short_link=short_link)
         if URLMap.query.filter_by(short=short).first() is not None:
