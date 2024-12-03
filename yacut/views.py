@@ -1,24 +1,9 @@
-import random
-import string
-
 from flask import abort, flash, render_template, redirect
 
 from . import app, db
 from .models import URLMap
 from .forms import YacutForm
-
-ALL_SYMBOLS = string.ascii_letters + string.digits
-
-
-def get_unique_short_id():
-    """
-    Функция отвечающая за автоматическое создание
-    идентификатора короткой ссылки.
-    """
-    random_string = ''.join(random.choice(ALL_SYMBOLS) for _ in range(6))
-    if URLMap.query.filter_by(short=random_string).first() is not None:
-        return get_unique_short_id()
-    return random_string
+from .random_id import get_unique_short_id
 
 
 def create_object_in_data_base(form: YacutForm, short_link: str):
